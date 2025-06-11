@@ -1,0 +1,76 @@
+Modelo Entidade-Relacionamento (MER) - Sistema de Gerenciamento Escolar Infantil
+
+Entidades:
+
+1. ALUNO
+   - id (PK)
+   - nome
+   - data_nascimento
+   - endereco
+   - telefone
+
+2. PROFESSOR
+   - id (PK)
+   - nome
+   - email
+   - telefone
+   - formacao
+   - data_contratacao
+
+3. TURMA
+   - id (PK)
+   - nome
+   - ano_letivo
+   - periodo
+   - capacidade_maxima
+
+4. DISCIPLINA
+   - id (PK)
+   - nome
+   - descricao
+   - carga_horaria
+
+5. RESPONSAVEL
+   - id (PK)
+   - nome
+   - cpf
+   - telefone
+   - email
+   - parentesco
+
+6. MATRICULA
+   - id (PK)
+   - aluno_id (FK)
+   - turma_id (FK)
+   - data_matricula
+   - status
+
+7. NOTA
+   - id (PK)
+   - aluno_id (FK)
+   - disciplina_id (FK)
+   - valor
+   - data_avaliacao
+   - observacao
+
+8. ALUNO_RESPONSAVEL
+   - id (PK)
+   - aluno_id (FK)
+   - responsavel_id (FK)
+
+9. PROFESSOR_DISCIPLINA_TURMA
+   - id (PK)
+   - professor_id (FK)
+   - disciplina_id (FK)
+   - turma_id (FK)
+
+Relacionamentos:
+
+1. ALUNO possui MATRICULA (1:N)
+2. TURMA possui MATRICULA (1:N)
+3. ALUNO possui NOTA (1:N)
+4. DISCIPLINA possui NOTA (1:N)
+5. ALUNO relaciona-se com RESPONSAVEL através de ALUNO_RESPONSAVEL (N:M)
+6. PROFESSOR relaciona-se com DISCIPLINA e TURMA através de PROFESSOR_DISCIPLINA_TURMA (N:M:M)
+
+Nota: Este é um modelo textual. Um diagrama visual seria criado em uma ferramenta como MySQL Workbench, Draw.io, Lucidchart, etc.

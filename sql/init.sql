@@ -1,0 +1,110 @@
+-- Criação do banco de dados
+CREATE DATABASE IF NOT EXISTS escola_infantil;
+USE escola_infantil;
+
+-- Tabela de Alunos
+CREATE TABLE IF NOT EXISTS alunos (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  data_nascimento DATE NOT NULL,
+  endereco VARCHAR(255),
+  telefone VARCHAR(20),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabela de Professores
+CREATE TABLE IF NOT EXISTS professores (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  email VARCHAR(100) NOT NULL,
+  telefone VARCHAR(20),
+  formacao VARCHAR(100),
+  data_contratacao DATE,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabela de Turmas
+CREATE TABLE IF NOT EXISTS turmas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(50) NOT NULL,
+  ano_letivo INT NOT NULL,
+  periodo VARCHAR(20),
+  capacidade_maxima INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabela de Disciplinas
+CREATE TABLE IF NOT EXISTS disciplinas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  descricao TEXT,
+  carga_horaria INT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabela de Responsáveis
+CREATE TABLE IF NOT EXISTS responsaveis (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  nome VARCHAR(100) NOT NULL,
+  cpf VARCHAR(14) NOT NULL,
+  telefone VARCHAR(20),
+  email VARCHAR(100),
+  parentesco VARCHAR(50),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+);
+
+-- Tabela de Matrículas
+CREATE TABLE IF NOT EXISTS matriculas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  aluno_id INT NOT NULL,
+  turma_id INT NOT NULL,
+  data_matricula DATE NOT NULL,
+  status VARCHAR(20) DEFAULT 'Ativa',
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (aluno_id) REFERENCES alunos(id),
+  FOREIGN KEY (turma_id) REFERENCES turmas(id)
+);
+
+-- Tabela de Notas
+CREATE TABLE IF NOT EXISTS notas (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  aluno_id INT NOT NULL,
+  disciplina_id INT NOT NULL,
+  valor DECIMAL(4,2) NOT NULL,
+  data_avaliacao DATE,
+  observacao TEXT,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (aluno_id) REFERENCES alunos(id),
+  FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id)
+);
+
+-- Tabela de Relação Aluno-Responsável
+CREATE TABLE IF NOT EXISTS aluno_responsavel (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  aluno_id INT NOT NULL,
+  responsavel_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (aluno_id) REFERENCES alunos(id),
+  FOREIGN KEY (responsavel_id) REFERENCES responsaveis(id)
+);
+
+-- Tabela de Relação Professor-Disciplina-Turma
+CREATE TABLE IF NOT EXISTS professor_disciplina_turma (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  professor_id INT NOT NULL,
+  disciplina_id INT NOT NULL,
+  turma_id INT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  FOREIGN KEY (professor_id) REFERENCES professores(id),
+  FOREIGN KEY (disciplina_id) REFERENCES disciplinas(id),
+  FOREIGN KEY (turma_id) REFERENCES turmas(id)
+);

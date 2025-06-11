@@ -1,0 +1,63 @@
+Diagrama de Fluxo de Dados (DFD) - Sistema de Gerenciamento Escolar Infantil
+
+Entidades Externas:
+1. Administrador
+2. Professor
+3. Responsável
+4. Aluno
+
+Processos:
+
+1. Gerenciamento de Alunos
+   - Entrada: Dados do aluno (Administrador)
+   - Saída: Informações do aluno (Administrador, Professor, Responsável)
+   - Armazenamento: Banco de dados (Tabela Alunos)
+
+2. Gerenciamento de Professores
+   - Entrada: Dados do professor (Administrador)
+   - Saída: Informações do professor (Administrador)
+   - Armazenamento: Banco de dados (Tabela Professores)
+
+3. Gerenciamento de Turmas
+   - Entrada: Dados da turma (Administrador)
+   - Saída: Informações da turma (Administrador, Professor, Responsável)
+   - Armazenamento: Banco de dados (Tabela Turmas)
+
+4. Gerenciamento de Disciplinas
+   - Entrada: Dados da disciplina (Administrador)
+   - Saída: Informações da disciplina (Administrador, Professor)
+   - Armazenamento: Banco de dados (Tabela Disciplinas)
+
+5. Gerenciamento de Matrículas
+   - Entrada: Dados da matrícula (Administrador)
+   - Saída: Confirmação de matrícula (Administrador, Responsável)
+   - Armazenamento: Banco de dados (Tabela Matrículas)
+
+6. Gerenciamento de Notas
+   - Entrada: Notas dos alunos (Professor)
+   - Saída: Boletim escolar (Professor, Responsável, Aluno)
+   - Armazenamento: Banco de dados (Tabela Notas)
+
+7. Gerenciamento de Responsáveis
+   - Entrada: Dados do responsável (Administrador)
+   - Saída: Informações do responsável (Administrador)
+   - Armazenamento: Banco de dados (Tabela Responsáveis)
+
+Fluxos de Dados:
+
+1. Administrador -> Gerenciamento de Alunos -> Banco de dados
+2. Administrador -> Gerenciamento de Professores -> Banco de dados
+3. Administrador -> Gerenciamento de Turmas -> Banco de dados
+4. Administrador -> Gerenciamento de Disciplinas -> Banco de dados
+5. Administrador -> Gerenciamento de Matrículas -> Banco de dados
+6. Professor -> Gerenciamento de Notas -> Banco de dados
+7. Administrador -> Gerenciamento de Responsáveis -> Banco de dados
+8. Banco de dados -> Gerenciamento de Alunos -> Administrador/Professor/Responsável
+9. Banco de dados -> Gerenciamento de Professores -> Administrador
+10. Banco de dados -> Gerenciamento de Turmas -> Administrador/Professor/Responsável
+11. Banco de dados -> Gerenciamento de Disciplinas -> Administrador/Professor
+12. Banco de dados -> Gerenciamento de Matrículas -> Administrador/Responsável
+13. Banco de dados -> Gerenciamento de Notas -> Professor/Responsável/Aluno
+14. Banco de dados -> Gerenciamento de Responsáveis -> Administrador
+
+Nota: Este é um modelo textual. Um diagrama visual seria criado em uma ferramenta como Draw.io, Lucidchart, etc.
