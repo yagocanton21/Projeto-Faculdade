@@ -3,6 +3,7 @@ FROM mysql:8.0
 ENV MYSQL_ROOT_PASSWORD=password
 ENV MYSQL_DATABASE=escola_infantil
 
-COPY ./sql/init.sql /docker-entrypoint-initdb.d/
+COPY ./sql/init.sql /docker-entrypoint-initdb.d/01-init.sql
+COPY ./sql/usuario.sql /docker-entrypoint-initdb.d/02-usuario.sql
 
 EXPOSE 3306

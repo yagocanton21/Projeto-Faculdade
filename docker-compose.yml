@@ -7,8 +7,8 @@ services:
       dockerfile: Dockerfile
     container_name: escola-app
     restart: always
-    ports:
-      - "8080:3000"
+    expose:
+      - "3000"
     depends_on:
       - db
     environment:
@@ -25,13 +25,26 @@ services:
       dockerfile: Dockerfile.db
     container_name: escola-db
     restart: always
-    ports:
-      - "3307:3306"
+    expose:
+      - "3306"
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=escola_infantil
     volumes:
       - db-data:/var/lib/mysql
+    networks:
+      - escola-network
+      
+  nginx:
+    build:
+      context: .
+      dockerfile: Dockerfile.nginx
+    container_name: escola-nginx
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - app
     networks:
       - escola-network
 

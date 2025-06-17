@@ -12,6 +12,7 @@ const disciplinaRoutes = require('./routes/disciplina.routes');
 const notaRoutes = require('./routes/nota.routes');
 const responsavelRoutes = require('./routes/responsavel.routes');
 const matriculaRoutes = require('./routes/matricula.routes');
+const usuarioRoutes = require('./routes/usuario.routes');
 
 // Initialize express app
 const app = express();
@@ -32,6 +33,7 @@ app.use('/disciplinas', disciplinaRoutes);
 app.use('/notas', notaRoutes);
 app.use('/responsaveis', responsavelRoutes);
 app.use('/matriculas', matriculaRoutes);
+app.use('/usuarios', usuarioRoutes);
 
 // Root route
 app.get('/', (req, res) => {

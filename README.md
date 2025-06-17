@@ -1,116 +1,135 @@
-# Sistema de Gerenciamento Escolar Infantil - UniFAAT-ADS
+# Sistema de Gerenciamento Escolar Infantil
 
-## Descrição Geral
-Este projeto implementa o backend de um Sistema de Gerenciamento Escolar Infantil para a Escola Infantil UniFAAT-ADS. O sistema fornece uma API RESTful que permite gerenciar alunos, professores, turmas, disciplinas, notas e outras entidades relacionadas ao ambiente escolar.
+## Descrição do Projeto
+Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolvido como backend com API RESTful. O sistema permite gerenciar alunos, professores, turmas, disciplinas, notas, responsáveis e usuários do sistema.
 
 ## Estrutura de Pastas
-
-```
-Projeto-backend/
-├── app/                    # Código fonte do backend
-│   ├── controllers/        # Controladores da API
-│   ├── models/             # Modelos de dados/entidades
-│   ├── routes/             # Rotas da API
-│   ├── config/             # Configurações do sistema
-│   ├── middlewares/        # Middlewares da aplicação
-│   └── index.js            # Ponto de entrada da aplicação
-├── docs/                   # Documentação técnica
-│   ├── MER.pdf             # Modelo Entidade-Relacionamento
-│   └── DFD.pdf             # Diagrama de Fluxo de Dados
-├── sql/                    # Scripts SQL
-│   └── init.sql            # Script de criação das tabelas
-├── Dockerfile              # Dockerfile para o backend
-├── Dockerfile.db           # Dockerfile para o banco de dados
-├── docker-compose.yml      # Configuração do Docker Compose
-├── .env                    # Variáveis de ambiente
-├── package.json            # Dependências do projeto
-└── README.md               # Este arquivo
-```
+- **app/**: Contém todos os arquivos fonte do sistema backend
+  - **config/**: Configurações do sistema, incluindo conexão com banco de dados
+  - **controllers/**: Controladores que implementam a lógica de negócio
+  - **models/**: Modelos que representam as entidades do sistema
+  - **routes/**: Definição das rotas da API
+  - **middlewares/**: Middlewares para processamento de requisições
+  - **index.js**: Arquivo principal que inicializa o servidor
+- **docs/**: Documentação técnica do projeto
+  - **MER.txt**: Modelo Entidade-Relacionamento do banco de dados
+  - **DFD.txt**: Diagrama de Fluxo de Dados do sistema
+- **sql/**: Scripts SQL para criação e inicialização do banco de dados
+  - **init.sql**: Script para criação das tabelas principais
+  - **usuario.sql**: Script para criação da tabela de usuários
+- **Dockerfile**: Instruções para construir a imagem Docker do backend
+- **Dockerfile.db**: Instruções para construir a imagem Docker do banco de dados
+- **Dockerfile.nginx**: Instruções para construir a imagem Docker do servidor Nginx
+- **nginx.conf**: Configuração do servidor Nginx para proxy reverso
+- **docker-compose.yml**: Configuração para orquestração dos containers
+- **.env**: Variáveis de ambiente para configuração do sistema
 
 ## Como Executar o Projeto
 
 ### Pré-requisitos
-- Docker e Docker Compose instalados
+- Docker
+- Docker Compose
 
 ### Passos para Execução
+1. Clone o repositório
+2. Navegue até a pasta do projeto
+3. Construa e inicie os containers:
+   ```
+   docker-compose up -d --build
+   ```
+4. Para parar os containers:
+   ```
+   docker-compose down
+   ```
+5. Para reiniciar os containers:
+   ```
+   docker-compose restart
+   ```
+6. O sistema estará disponível em:
+   - API: http://localhost/api
+   - Ou diretamente: http://localhost:8080 (porta exposta pelo container da aplicação)
 
-1. Clone o repositório:
-```bash
-git clone [url-do-repositorio]
-cd Projeto-backend
-```
+### Interagindo com a API
 
-2. Inicie os containers com Docker Compose:
-```bash
-docker-compose up -d
-```
+#### Usuários
+- **Listar todos os usuários**: GET http://localhost/api/usuarios
+- **Buscar usuário por ID**: GET http://localhost/api/usuarios/{id}
+- **Criar usuário**: POST http://localhost/api/usuarios
+  ```json
+  {
+    "nome": "Nome do Usuário",
+    "email": "usuario@exemplo.com",
+    "senha": "123456",
+    "tipo": "Administrador"  // Valores aceitos: "Administrador", "Professor", "Aluno"
+  }
+  ```
+- **Atualizar usuário**: PUT http://localhost/api/usuarios/{id}
+  ```json
+  {
+    "nome": "Nome Atualizado",
+    "email": "email@atualizado.com",
+    "tipo": "Professor"
+  }
+  ```
+- **Atualizar senha**: PATCH http://localhost/api/usuarios/{id}/senha
+  ```json
+  {
+    "senha": "novaSenha123"
+  }
+  ```
+- **Excluir usuário**: DELETE http://localhost/api/usuarios/{id}
 
-Este comando irá:
-- Construir a imagem do backend
-- Construir a imagem do banco de dados
-- Iniciar todos os serviços
+#### Alunos
+- **Listar todos os alunos**: GET http://localhost/api/alunos
+- **Buscar aluno por ID**: GET http://localhost/api/alunos/{id}
+- **Criar aluno**: POST http://localhost/api/alunos
+  ```json
+  {
+    "nome": "Nome do Aluno",
+    "data_nascimento": "2018-01-15",
+    "endereco": "Rua Exemplo, 123",
+    "telefone": "(11) 98765-4321"
+  }
+  ```
+- **Atualizar aluno**: PUT http://localhost/api/alunos/{id}
+- **Excluir aluno**: DELETE http://localhost/api/alunos/{id}
 
-3. Acesse a API através do endereço:
-```
-http://localhost:8080/alunos
-http://localhost:8080/professores
-http://localhost:8080/turmas
-```
+#### Professores
+- **Listar todos os professores**: GET http://localhost/api/professores
+- **Buscar professor por ID**: GET http://localhost/api/professores/{id}
+- **Criar professor**: POST http://localhost/api/professores
+- **Atualizar professor**: PUT http://localhost/api/professores/{id}
+- **Excluir professor**: DELETE http://localhost/api/professores/{id}
 
-### Solução de Problemas
+#### Turmas
+- **Listar todas as turmas**: GET http://localhost/api/turmas
+- **Buscar turma por ID**: GET http://localhost/api/turmas/{id}
+- **Criar turma**: POST http://localhost/api/turmas
+- **Atualizar turma**: PUT http://localhost/api/turmas/{id}
+- **Excluir turma**: DELETE http://localhost/api/turmas/{id}
 
-Se você encontrar o erro "Ports are not available" para a porta 3306, isso significa que você já tem um servidor MySQL ou outro serviço usando essa porta. O docker-compose.yml foi configurado para usar a porta 3307 externamente, mapeando para a porta 3306 dentro do container.
+## Tecnologias Utilizadas
+- Node.js
+- Express.js
+- MySQL
+- Docker
+- Nginx
 
-Se você encontrar o erro "Ports are not available" para a porta 8080, você pode modificar o arquivo docker-compose.yml e alterar a porta para outra disponível, por exemplo:
-```yaml
-ports:
-  - "9000:3000"
-```
+## Solução de Problemas
 
-E então acessar a API em http://localhost:9000/alunos
+### Erro ao acessar a API
+- Verifique se todos os containers estão rodando: `docker-compose ps`
+- Verifique os logs da aplicação: `docker logs escola-app`
+- Verifique os logs do nginx: `docker logs escola-nginx`
+- Verifique os logs do banco de dados: `docker logs escola-db`
 
-Para conectar-se ao banco de dados MySQL a partir da sua máquina local:
-```
-Host: localhost
-Porta: 3307
-Usuário: root
-Senha: password
-Banco de dados: escola_infantil
-```
+### Erro de conexão com o banco de dados
+- Verifique se o container do banco de dados está rodando
+- Verifique se as variáveis de ambiente estão configuradas corretamente no arquivo .env
+- Tente reiniciar o container da aplicação: `docker-compose restart app`
 
-## Rotas da API
+### Portas em uso
+- Se alguma porta já estiver em uso, modifique o arquivo docker-compose.yml para usar portas diferentes
 
-### Alunos
-- `GET /alunos` - Lista todos os alunos
-- `GET /alunos/:id` - Obtém detalhes de um aluno específico
-- `POST /alunos` - Cadastra um novo aluno
-- `PUT /alunos/:id` - Atualiza dados de um aluno
-- `DELETE /alunos/:id` - Remove um aluno
-
-### Professores
-- `GET /professores` - Lista todos os professores
-- `GET /professores/:id` - Obtém detalhes de um professor específico
-- `POST /professores` - Cadastra um novo professor
-- `PUT /professores/:id` - Atualiza dados de um professor
-- `DELETE /professores/:id` - Remove um professor
-
-### Turmas
-- `GET /turmas` - Lista todas as turmas
-- `GET /turmas/:id` - Obtém detalhes de uma turma específica
-- `POST /turmas` - Cadastra uma nova turma
-- `PUT /turmas/:id` - Atualiza dados de uma turma
-- `DELETE /turmas/:id` - Remove uma turma
-
-### Disciplinas
-- `GET /disciplinas` - Lista todas as disciplinas
-- `GET /disciplinas/:id` - Obtém detalhes de uma disciplina específica
-- `POST /disciplinas` - Cadastra uma nova disciplina
-- `PUT /disciplinas/:id` - Atualiza dados de uma disciplina
-- `DELETE /disciplinas/:id` - Remove uma disciplina
-
-### Notas
-- `GET /notas` - Lista todas as notas
-- `GET /notas/aluno/:id` - Obtém notas de um aluno específico
-- `POST /notas` - Cadastra uma nova nota
-- `PUT /notas/:id` - Atualiza uma nota
-- `DELETE /notas/:id` - Remove uma nota
+## Autores
+- Equipe de Desenvolvimento
