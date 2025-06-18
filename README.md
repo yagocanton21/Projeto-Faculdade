@@ -12,8 +12,8 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
   - **middlewares/**: Middlewares para processamento de requisições
   - **index.js**: Arquivo principal que inicializa o servidor
 - **docs/**: Documentação técnica do projeto
-  - **MER.txt**: Modelo Entidade-Relacionamento do banco de dados
-  - **DFD.txt**: Diagrama de Fluxo de Dados do sistema
+  - **MER.png**: Modelo Entidade-Relacionamento do banco de dados
+  - **DFD.drawio**: Diagrama de Fluxo de Dados do sistema
 - **init.sql**: Script para criação das tabelas principais
 - **usuario.sql**: Script para criação da tabela de usuários
 - **Dockerfile**: Instruções para construir a imagem Docker do backend
@@ -46,7 +46,7 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
    ```
 6. O sistema estará disponível em:
    - API: http://localhost/api
-   - Ou diretamente: http://localhost:8080 (porta exposta pelo container da aplicação)
+   - Ou diretamente: http://localhost:3000 (porta exposta pelo container da aplicação)
 
 ### Interagindo com a API
 
@@ -124,45 +124,73 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
 - **Atualizar turma**: PUT http://localhost/api/turmas/{id}
 - **Excluir turma**: DELETE http://localhost/api/turmas/{id}
 
+#### Disciplinas
+- **Listar todas as disciplinas**: GET http://localhost/api/disciplinas
+- **Buscar disciplina por ID**: GET http://localhost/api/disciplinas/{id}
+- **Criar disciplina**: POST http://localhost/api/disciplinas
+  ```json
+  {
+    "nome": "Matemática",
+    "descricao": "Fundamentos de matemática",
+    "carga_horaria": 60
+  }
+  ```
+- **Atualizar disciplina**: PUT http://localhost/api/disciplinas/{id}
+- **Excluir disciplina**: DELETE http://localhost/api/disciplinas/{id}
+
+#### Responsáveis
+- **Listar todos os responsáveis**: GET http://localhost/api/responsaveis
+- **Buscar responsável por ID**: GET http://localhost/api/responsaveis/{id}
+- **Criar responsável**: POST http://localhost/api/responsaveis
+  ```json
+  {
+    "nome": "Ana Silva",
+    "cpf": "123.456.789-00",
+    "telefone": "(11) 98765-4321",
+    "email": "ana@exemplo.com",
+    "parentesco": "Mãe"
+  }
+  ```
+- **Atualizar responsável**: PUT http://localhost/api/responsaveis/{id}
+- **Excluir responsável**: DELETE http://localhost/api/responsaveis/{id}
+
+#### Matrículas
+- **Listar todas as matrículas**: GET http://localhost/api/matriculas
+- **Buscar matrícula por ID**: GET http://localhost/api/matriculas/{id}
+- **Criar matrícula**: POST http://localhost/api/matriculas
+  ```json
+  {
+    "aluno_id": 1,
+    "turma_id": 1,
+    "data_matricula": "2023-02-01",
+    "status": "Ativa"
+  }
+  ```
+- **Atualizar matrícula**: PUT http://localhost/api/matriculas/{id}
+- **Excluir matrícula**: DELETE http://localhost/api/matriculas/{id}
+
+#### Notas
+- **Listar todas as notas**: GET http://localhost/api/notas
+- **Buscar nota por ID**: GET http://localhost/api/notas/{id}
+- **Criar nota**: POST http://localhost/api/notas
+  ```json
+  {
+    "aluno_id": 1,
+    "disciplina_id": 1,
+    "valor": 8.5,
+    "data_avaliacao": "2023-05-15",
+    "observacao": "Prova bimestral"
+  }
+  ```
+- **Atualizar nota**: PUT http://localhost/api/notas/{id}
+- **Excluir nota**: DELETE http://localhost/api/notas/{id}
+
 ## Tecnologias Utilizadas
 - Node.js
 - Express.js
 - MySQL
 - Docker
 - Nginx
-
-## Endpoints da API
-
-O sistema oferece os seguintes endpoints RESTful:
-
-### Alunos
-- `GET /api/alunos` - Lista todos os alunos
-- `GET /api/alunos/{id}` - Busca um aluno pelo ID
-- `POST /api/alunos` - Cria um novo aluno
-- `PUT /api/alunos/{id}` - Atualiza um aluno existente
-- `DELETE /api/alunos/{id}` - Remove um aluno
-
-### Professores
-- `GET /api/professores` - Lista todos os professores
-- `GET /api/professores/{id}` - Busca um professor pelo ID
-- `POST /api/professores` - Cria um novo professor
-- `PUT /api/professores/{id}` - Atualiza um professor existente
-- `DELETE /api/professores/{id}` - Remove um professor
-
-### Turmas
-- `GET /api/turmas` - Lista todas as turmas
-- `GET /api/turmas/{id}` - Busca uma turma pelo ID
-- `POST /api/turmas` - Cria uma nova turma
-- `PUT /api/turmas/{id}` - Atualiza uma turma existente
-- `DELETE /api/turmas/{id}` - Remove uma turma
-
-### Usuários
-- `GET /api/usuarios` - Lista todos os usuários
-- `GET /api/usuarios/{id}` - Busca um usuário pelo ID
-- `POST /api/usuarios` - Cria um novo usuário
-- `PUT /api/usuarios/{id}` - Atualiza um usuário existente
-- `PATCH /api/usuarios/{id}/senha` - Atualiza a senha de um usuário
-- `DELETE /api/usuarios/{id}` - Remove um usuário
 
 ## Solução de Problemas
 
