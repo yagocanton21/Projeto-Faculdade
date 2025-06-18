@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   app:
     build:
@@ -20,18 +18,20 @@ services:
       - escola-network
 
   db:
-    build:
-      context: .
-      dockerfile: Dockerfile.db
+    image: mysql:8.0
     container_name: escola-db
     restart: always
-    expose:
-      - "3306"
+    ports:
+      - "3307:3306"
     environment:
       - MYSQL_ROOT_PASSWORD=password
       - MYSQL_DATABASE=escola_infantil
+      - MYSQL_ROOT_HOST=%
     volumes:
+      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql
+      - ./usuario.sql:/docker-entrypoint-initdb.d/02-usuario.sql
       - db-data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
     networks:
       - escola-network
       

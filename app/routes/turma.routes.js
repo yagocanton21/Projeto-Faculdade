@@ -2,19 +2,19 @@ const express = require('express');
 const router = express.Router();
 const turmaController = require('../controllers/turma.controller');
 
-// Retrieve all turmas
+// Listar todas as turmas
 router.get('/', turmaController.findAll);
 
-// Retrieve a single turma with id
+// Buscar uma turma por ID
 router.get('/:id', turmaController.findOne);
 
-// Create a new turma
+// Criar uma nova turma
 router.post('/', turmaController.create);
 
-// Update a turma with id
+// Atualizar uma turma
 router.put('/:id', turmaController.update);
 
-// Delete a turma with id
+// Excluir uma turma
 router.delete('/:id', turmaController.delete);
 
 module.exports = router;

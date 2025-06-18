@@ -1,63 +1,85 @@
 Diagrama de Fluxo de Dados (DFD) - Sistema de Gerenciamento Escolar Infantil
 
-Entidades Externas:
-1. Administrador
-2. Professor
-3. Responsável
-4. Aluno
+1. Processos Principais:
 
-Processos:
+   1.1. Gerenciamento de Usuários
+       - Entrada: Dados de usuários (nome, email, senha, tipo)
+       - Saída: Informações de usuários, confirmações de operações
+       - Armazenamento: Tabela de Usuários
 
-1. Gerenciamento de Alunos
-   - Entrada: Dados do aluno (Administrador)
-   - Saída: Informações do aluno (Administrador, Professor, Responsável)
-   - Armazenamento: Banco de dados (Tabela Alunos)
+   1.2. Gerenciamento de Alunos
+       - Entrada: Dados de alunos (nome, data de nascimento, endereço, telefone)
+       - Saída: Informações de alunos, confirmações de operações
+       - Armazenamento: Tabela de Alunos
 
-2. Gerenciamento de Professores
-   - Entrada: Dados do professor (Administrador)
-   - Saída: Informações do professor (Administrador)
-   - Armazenamento: Banco de dados (Tabela Professores)
+   1.3. Gerenciamento de Professores
+       - Entrada: Dados de professores (nome, email, telefone, formação, data de contratação)
+       - Saída: Informações de professores, confirmações de operações
+       - Armazenamento: Tabela de Professores
 
-3. Gerenciamento de Turmas
-   - Entrada: Dados da turma (Administrador)
-   - Saída: Informações da turma (Administrador, Professor, Responsável)
-   - Armazenamento: Banco de dados (Tabela Turmas)
+   1.4. Gerenciamento de Turmas
+       - Entrada: Dados de turmas (nome, ano letivo, período, capacidade máxima)
+       - Saída: Informações de turmas, confirmações de operações
+       - Armazenamento: Tabela de Turmas
 
-4. Gerenciamento de Disciplinas
-   - Entrada: Dados da disciplina (Administrador)
-   - Saída: Informações da disciplina (Administrador, Professor)
-   - Armazenamento: Banco de dados (Tabela Disciplinas)
+   1.5. Gerenciamento de Disciplinas
+       - Entrada: Dados de disciplinas (nome, descrição, carga horária)
+       - Saída: Informações de disciplinas, confirmações de operações
+       - Armazenamento: Tabela de Disciplinas
 
-5. Gerenciamento de Matrículas
-   - Entrada: Dados da matrícula (Administrador)
-   - Saída: Confirmação de matrícula (Administrador, Responsável)
-   - Armazenamento: Banco de dados (Tabela Matrículas)
+   1.6. Gerenciamento de Responsáveis
+       - Entrada: Dados de responsáveis (nome, CPF, telefone, email, parentesco)
+       - Saída: Informações de responsáveis, confirmações de operações
+       - Armazenamento: Tabela de Responsáveis
 
-6. Gerenciamento de Notas
-   - Entrada: Notas dos alunos (Professor)
-   - Saída: Boletim escolar (Professor, Responsável, Aluno)
-   - Armazenamento: Banco de dados (Tabela Notas)
+   1.7. Gerenciamento de Matrículas
+       - Entrada: Dados de matrículas (aluno, turma, data de matrícula, status)
+       - Saída: Informações de matrículas, confirmações de operações
+       - Armazenamento: Tabela de Matrículas
 
-7. Gerenciamento de Responsáveis
-   - Entrada: Dados do responsável (Administrador)
-   - Saída: Informações do responsável (Administrador)
-   - Armazenamento: Banco de dados (Tabela Responsáveis)
+   1.8. Gerenciamento de Notas
+       - Entrada: Dados de notas (aluno, disciplina, valor, data de avaliação, observação)
+       - Saída: Informações de notas, confirmações de operações
+       - Armazenamento: Tabela de Notas
 
-Fluxos de Dados:
+2. Fluxos de Dados:
 
-1. Administrador -> Gerenciamento de Alunos -> Banco de dados
-2. Administrador -> Gerenciamento de Professores -> Banco de dados
-3. Administrador -> Gerenciamento de Turmas -> Banco de dados
-4. Administrador -> Gerenciamento de Disciplinas -> Banco de dados
-5. Administrador -> Gerenciamento de Matrículas -> Banco de dados
-6. Professor -> Gerenciamento de Notas -> Banco de dados
-7. Administrador -> Gerenciamento de Responsáveis -> Banco de dados
-8. Banco de dados -> Gerenciamento de Alunos -> Administrador/Professor/Responsável
-9. Banco de dados -> Gerenciamento de Professores -> Administrador
-10. Banco de dados -> Gerenciamento de Turmas -> Administrador/Professor/Responsável
-11. Banco de dados -> Gerenciamento de Disciplinas -> Administrador/Professor
-12. Banco de dados -> Gerenciamento de Matrículas -> Administrador/Responsável
-13. Banco de dados -> Gerenciamento de Notas -> Professor/Responsável/Aluno
-14. Banco de dados -> Gerenciamento de Responsáveis -> Administrador
+   2.1. Cliente (Frontend/API Client) → Sistema
+       - Requisições HTTP (GET, POST, PUT, DELETE)
+       - Dados em formato JSON
+       - Autenticação via tokens
 
-Nota: Este é um modelo textual. Um diagrama visual seria criado em uma ferramenta como Draw.io, Lucidchart, etc.
+   2.2. Sistema → Cliente
+       - Respostas HTTP com códigos de status
+       - Dados em formato JSON
+       - Mensagens de erro ou sucesso
+
+   2.3. Sistema → Banco de Dados
+       - Consultas SQL (SELECT, INSERT, UPDATE, DELETE)
+       - Transações para operações complexas
+
+   2.4. Banco de Dados → Sistema
+       - Resultados de consultas
+       - Confirmações de operações
+       - Erros de banco de dados
+
+3. Entidades Externas:
+
+   3.1. Administrador
+       - Gerencia usuários, professores, turmas e disciplinas
+       - Acesso total ao sistema
+
+   3.2. Professor
+       - Gerencia notas e visualiza alunos de suas turmas
+       - Acesso restrito às suas turmas e disciplinas
+
+   3.3. Aluno/Responsável
+       - Visualiza notas, turmas e informações do aluno
+       - Acesso restrito às suas próprias informações
+
+4. Armazenamento de Dados:
+
+   4.1. Banco de Dados MySQL
+       - Tabelas relacionais conforme o MER
+       - Índices para otimização de consultas
+       - Chaves estrangeiras para integridade referencial

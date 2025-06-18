@@ -14,9 +14,8 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
 - **docs/**: Documentação técnica do projeto
   - **MER.txt**: Modelo Entidade-Relacionamento do banco de dados
   - **DFD.txt**: Diagrama de Fluxo de Dados do sistema
-- **sql/**: Scripts SQL para criação e inicialização do banco de dados
-  - **init.sql**: Script para criação das tabelas principais
-  - **usuario.sql**: Script para criação da tabela de usuários
+- **init.sql**: Script para criação das tabelas principais
+- **usuario.sql**: Script para criação da tabela de usuários
 - **Dockerfile**: Instruções para construir a imagem Docker do backend
 - **Dockerfile.db**: Instruções para construir a imagem Docker do banco de dados
 - **Dockerfile.nginx**: Instruções para construir a imagem Docker do servidor Nginx
@@ -60,7 +59,7 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
     "nome": "Nome do Usuário",
     "email": "usuario@exemplo.com",
     "senha": "123456",
-    "tipo": "Administrador"  // Valores aceitos: "Administrador", "Professor", "Aluno"
+    "tipo": "Administrador"  /* Valores aceitos: "Administrador", "Professor", "Aluno" */
   }
   ```
 - **Atualizar usuário**: PUT http://localhost/api/usuarios/{id}
@@ -98,6 +97,15 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
 - **Listar todos os professores**: GET http://localhost/api/professores
 - **Buscar professor por ID**: GET http://localhost/api/professores/{id}
 - **Criar professor**: POST http://localhost/api/professores
+  ```json
+  {
+    "nome": "Nome do Professor",
+    "email": "professor@exemplo.com",
+    "telefone": "(11) 91234-5678",
+    "formacao": "Pedagogia",
+    "data_contratacao": "2022-02-15"
+  }
+  ```
 - **Atualizar professor**: PUT http://localhost/api/professores/{id}
 - **Excluir professor**: DELETE http://localhost/api/professores/{id}
 
@@ -105,6 +113,14 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
 - **Listar todas as turmas**: GET http://localhost/api/turmas
 - **Buscar turma por ID**: GET http://localhost/api/turmas/{id}
 - **Criar turma**: POST http://localhost/api/turmas
+  ```json
+  {
+    "nome": "Turma A",
+    "ano_letivo": 2023,
+    "periodo": "Manhã",
+    "capacidade_maxima": 25
+  }
+  ```
 - **Atualizar turma**: PUT http://localhost/api/turmas/{id}
 - **Excluir turma**: DELETE http://localhost/api/turmas/{id}
 
@@ -114,6 +130,39 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
 - MySQL
 - Docker
 - Nginx
+
+## Endpoints da API
+
+O sistema oferece os seguintes endpoints RESTful:
+
+### Alunos
+- `GET /api/alunos` - Lista todos os alunos
+- `GET /api/alunos/{id}` - Busca um aluno pelo ID
+- `POST /api/alunos` - Cria um novo aluno
+- `PUT /api/alunos/{id}` - Atualiza um aluno existente
+- `DELETE /api/alunos/{id}` - Remove um aluno
+
+### Professores
+- `GET /api/professores` - Lista todos os professores
+- `GET /api/professores/{id}` - Busca um professor pelo ID
+- `POST /api/professores` - Cria um novo professor
+- `PUT /api/professores/{id}` - Atualiza um professor existente
+- `DELETE /api/professores/{id}` - Remove um professor
+
+### Turmas
+- `GET /api/turmas` - Lista todas as turmas
+- `GET /api/turmas/{id}` - Busca uma turma pelo ID
+- `POST /api/turmas` - Cria uma nova turma
+- `PUT /api/turmas/{id}` - Atualiza uma turma existente
+- `DELETE /api/turmas/{id}` - Remove uma turma
+
+### Usuários
+- `GET /api/usuarios` - Lista todos os usuários
+- `GET /api/usuarios/{id}` - Busca um usuário pelo ID
+- `POST /api/usuarios` - Cria um novo usuário
+- `PUT /api/usuarios/{id}` - Atualiza um usuário existente
+- `PATCH /api/usuarios/{id}/senha` - Atualiza a senha de um usuário
+- `DELETE /api/usuarios/{id}` - Remove um usuário
 
 ## Solução de Problemas
 

@@ -41,6 +41,7 @@ exports.criar = async (req, res) => {
       data: usuarioSemSenha
     });
   } catch (err) {
+    console.error('Erro ao criar usuário:', err);
     res.status(500).json({
       error: true,
       message: err.message || 'Ocorreu um erro ao criar o usuário.'
@@ -51,13 +52,26 @@ exports.criar = async (req, res) => {
 // Buscar todos os usuários
 exports.buscarTodos = async (req, res) => {
   try {
+    console.log('Buscando todos os usuários...');
     const usuarios = await Usuario.buscarTodos();
+    console.log('Usuários encontrados:', usuarios.length);
+    
+    if (!usuarios || usuarios.length === 0) {
+      console.log('Nenhum usuário encontrado');
+      return res.status(200).json({
+        error: false,
+        message: 'Nenhum usuário encontrado no sistema.',
+        data: []
+      });
+    }
     
     res.status(200).json({
       error: false,
+      message: `${usuarios.length} usuário(s) encontrado(s).`,
       data: usuarios
     });
   } catch (err) {
+    console.error('Erro ao buscar usuários:', err);
     res.status(500).json({
       error: true,
       message: err.message || 'Ocorreu um erro ao buscar os usuários.'
@@ -82,6 +96,7 @@ exports.buscarPorId = async (req, res) => {
       data: usuario
     });
   } catch (err) {
+    console.error(`Erro ao buscar usuário ${req.params.id}:`, err);
     res.status(500).json({
       error: true,
       message: err.message || 'Ocorreu um erro ao buscar o usuário.'
@@ -143,6 +158,7 @@ exports.atualizar = async (req, res) => {
       });
     }
   } catch (err) {
+    console.error(`Erro ao atualizar usuário ${req.params.id}:`, err);
     res.status(500).json({
       error: true,
       message: err.message || 'Ocorreu um erro ao atualizar o usuário.'
@@ -185,6 +201,7 @@ exports.atualizarSenha = async (req, res) => {
       });
     }
   } catch (err) {
+    console.error(`Erro ao atualizar senha do usuário ${req.params.id}:`, err);
     res.status(500).json({
       error: true,
       message: err.message || 'Ocorreu um erro ao atualizar a senha.'
@@ -219,6 +236,7 @@ exports.excluir = async (req, res) => {
       });
     }
   } catch (err) {
+    console.error(`Erro ao excluir usuário ${req.params.id}:`, err);
     res.status(500).json({
       error: true,
       message: err.message || 'Ocorreu um erro ao excluir o usuário.'

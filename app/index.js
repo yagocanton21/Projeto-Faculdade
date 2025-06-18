@@ -4,43 +4,43 @@ const cors = require('cors');
 const helmet = require('helmet');
 const morgan = require('morgan');
 
-// Import routes
+// Importar rotas
 const alunoRoutes = require('./routes/aluno.routes');
-const professorRoutes = require('./routes/professor.routes');
+const usuarioRoutes = require('./routes/usuario.routes');
 const turmaRoutes = require('./routes/turma.routes');
+const professorRoutes = require('./routes/professor.routes');
 const disciplinaRoutes = require('./routes/disciplina.routes');
+const matriculaRoutes = require('./routes/matricula.routes');
 const notaRoutes = require('./routes/nota.routes');
 const responsavelRoutes = require('./routes/responsavel.routes');
-const matriculaRoutes = require('./routes/matricula.routes');
-const usuarioRoutes = require('./routes/usuario.routes');
 
-// Initialize express app
+// Inicializar aplicação express
 const app = express();
 const PORT = process.env.PORT || 3000;
 
 // Middlewares
-app.use(helmet()); // Security headers
-app.use(cors()); // Enable CORS
-app.use(morgan('dev')); // Logging
-app.use(express.json()); // Parse JSON bodies
-app.use(express.urlencoded({ extended: true })); // Parse URL-encoded bodies
+app.use(helmet()); // Cabeçalhos de segurança
+app.use(cors()); // Habilitar CORS
+app.use(morgan('dev')); // Registro de logs
+app.use(express.json()); // Processar corpos JSON
+app.use(express.urlencoded({ extended: true })); // Processar corpos URL-encoded
 
-// Routes
-app.use('/alunos', alunoRoutes);
-app.use('/professores', professorRoutes);
-app.use('/turmas', turmaRoutes);
-app.use('/disciplinas', disciplinaRoutes);
-app.use('/notas', notaRoutes);
-app.use('/responsaveis', responsavelRoutes);
-app.use('/matriculas', matriculaRoutes);
-app.use('/usuarios', usuarioRoutes);
-
-// Root route
+// Rota raiz
 app.get('/', (req, res) => {
   res.json({ message: 'Bem-vindo à API do Sistema de Gerenciamento Escolar Infantil' });
 });
 
-// Error handling middleware
+// Rotas
+app.use('/alunos', alunoRoutes);
+app.use('/usuarios', usuarioRoutes);
+app.use('/turmas', turmaRoutes);
+app.use('/professores', professorRoutes);
+app.use('/disciplinas', disciplinaRoutes);
+app.use('/matriculas', matriculaRoutes);
+app.use('/notas', notaRoutes);
+app.use('/responsaveis', responsavelRoutes);
+
+// Middleware de tratamento de erros
 app.use((err, req, res, next) => {
   console.error(err.stack);
   res.status(500).json({
@@ -49,7 +49,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// Start server
+// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor rodando na porta ${PORT}`);
 });

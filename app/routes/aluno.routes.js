@@ -2,19 +2,19 @@ const express = require('express');
 const router = express.Router();
 const alunoController = require('../controllers/aluno.controller');
 
-// Retrieve all alunos
+// Buscar todos os alunos
 router.get('/', alunoController.findAll);
 
-// Retrieve a single aluno with id
+// Buscar um aluno pelo ID
 router.get('/:id', alunoController.findOne);
 
-// Create a new aluno
+// Criar um novo aluno
 router.post('/', alunoController.create);
 
-// Update an aluno with id
+// Atualizar um aluno pelo ID
 router.put('/:id', alunoController.update);
 
-// Delete an aluno with id
+// Excluir um aluno pelo ID
 router.delete('/:id', alunoController.delete);
 
 module.exports = router;
