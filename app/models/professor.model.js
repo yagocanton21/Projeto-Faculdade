@@ -23,10 +23,10 @@ class Professor {
 
   static async create(professor) {
     try {
-      const { nome, email, telefone, formacao, data_contratacao } = professor;
+      const { nome, email, telefone } = professor;
       const [result] = await pool.execute(
-        'INSERT INTO professores (nome, email, telefone, formacao, data_contratacao) VALUES (?, ?, ?, ?, ?)',
-        [nome, email, telefone, formacao, data_contratacao]
+        'INSERT INTO professores (nome, email, telefone) VALUES (?, ?, ?)',
+        [nome, email, telefone]
       );
       return { id: result.insertId, ...professor };
     } catch (error) {
@@ -37,10 +37,10 @@ class Professor {
 
   static async update(id, professor) {
     try {
-      const { nome, email, telefone, formacao, data_contratacao } = professor;
+      const { nome, email, telefone } = professor;
       await pool.execute(
-        'UPDATE professores SET nome = ?, email = ?, telefone = ?, formacao = ?, data_contratacao = ? WHERE id = ?',
-        [nome, email, telefone, formacao, data_contratacao, id]
+        'UPDATE professores SET nome = ?, email = ?, telefone = ? WHERE id = ?',
+        [nome, email, telefone, id]
       );
       return { id, ...professor };
     } catch (error) {

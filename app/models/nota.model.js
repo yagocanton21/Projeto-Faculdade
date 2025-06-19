@@ -1,58 +1,71 @@
-const db = require('../config/db.config');
+const pool = require('../config/db.config');
 
 class Nota {
   static async findAll() {
-    const [rows] = await db.query(`
-      SELECT n.*, a.nome as aluno_nome, d.nome as disciplina_nome 
-      FROM notas n
-      JOIN alunos a ON n.aluno_id = a.id
-      JOIN disciplinas d ON n.disciplina_id = d.id
-    `);
-    return rows;
+    try {
+      const [rows] = await pool.execute(`
+        SELECT n.*, a.nome as aluno_nome 
+        FROM notas n 
+        JOIN alunos a ON n.aluno_id = a.id
+      `);
+      return rows;
+    } catch (error) {
+      console.error('Erro ao buscar notas:', error);
+      throw error;
+    }
   }
 
   static async findById(id) {
-    const [rows] = await db.query(`
-      SELECT n.*, a.nome as aluno_nome, d.nome as disciplina_nome 
-      FROM notas n
-      JOIN alunos a ON n.aluno_id = a.id
-      JOIN disciplinas d ON n.disciplina_id = d.id
-      WHERE n.id = ?
-    `, [id]);
-    return rows[0];
-  }
-
-  static async findByAlunoId(alunoId) {
-    const [rows] = await db.query(`
-      SELECT n.*, d.nome as disciplina_nome 
-      FROM notas n
-      JOIN disciplinas d ON n.disciplina_id = d.id
-      WHERE n.aluno_id = ?
-    `, [alunoId]);
-    return rows;
+    try {
+      const [rows] = await pool.execute(`
+        SELECT n.*, a.nome as aluno_nome 
+        FROM notas n 
+        JOIN alunos a ON n.aluno_id = a.id 
+        WHERE n.id = ?
+      `, [id]);
+      return rows[0];
+    } catch (error) {
+      console.error(`Erro ao buscar nota com ID ${id}:`, error);
+      throw error;
+    }
   }
 
   static async create(nota) {
-    const { aluno_id, disciplina_id, valor, data_avaliacao, observacao } = nota;
-    const [result] = await db.query(
-      'INSERT INTO notas (aluno_id, disciplina_id, valor, data_avaliacao, observacao) VALUES (?, ?, ?, ?, ?)',
-      [aluno_id, disciplina_id, valor, data_avaliacao, observacao]
-    );
-    return { id: result.insertId, ...nota };
+    try {
+      const { aluno_id, disciplina, valor, data_avaliacao, observacao } = nota;
+      const [result] = await pool.execute(
+        'INSERT INTO notas (aluno_id, disciplina, valor, data_avaliacao, observacao) VALUES (?, ?, ?, ?, ?)',
+        [aluno_id, disciplina, valor, data_avaliacao, observacao]
+      );
+      return { id: result.insertId, ...nota };
+    } catch (error) {
+      console.error('Erro ao criar nota:', error);
+      throw error;
+    }
   }
 
   static async update(id, nota) {
-    const { aluno_id, disciplina_id, valor, data_avaliacao, observacao } = nota;
-    await db.query(
-      'UPDATE notas SET aluno_id = ?, disciplina_id = ?, valor = ?, data_avaliacao = ?, observacao = ? WHERE id = ?',
-      [aluno_id, disciplina_id, valor, data_avaliacao, observacao, id]
-    );
-    return { id, ...nota };
+    try {
+      const { aluno_id, disciplina, valor, data_avaliacao, observacao } = nota;
+      await pool.execute(
+        'UPDATE notas SET aluno_id = ?, disciplina = ?, valor = ?, data_avaliacao = ?, observacao = ? WHERE id = ?',
+        [aluno_id, disciplina, valor, data_avaliacao, observacao, id]
+      );
+      return { id, ...nota };
+    } catch (error) {
+      console.error(`Erro ao atualizar nota com ID ${id}:`, error);
+      throw error;
+    }
   }
 
   static async delete(id) {
-    await db.query('DELETE FROM notas WHERE id = ?', [id]);
-    return { id };
+    try {
+      await pool.execute('DELETE FROM notas WHERE id = ?', [id]);
+      return { id };
+    } catch (error) {
+      console.error(`Erro ao excluir nota com ID ${id}:`, error);
+      throw error;
+    }
   }
 }
 

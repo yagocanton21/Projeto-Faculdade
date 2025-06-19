@@ -2,19 +2,19 @@ const express = require('express');
 const router = express.Router();
 const matriculaController = require('../controllers/matricula.controller');
 
-// Retrieve all matriculas
+// Buscar todas as matrículas
 router.get('/', matriculaController.findAll);
 
-// Retrieve a single matricula with id
+// Buscar uma matrícula pelo ID
 router.get('/:id', matriculaController.findOne);
 
-// Create a new matricula
+// Criar uma nova matrícula
 router.post('/', matriculaController.create);
 
-// Update a matricula with id
+// Atualizar uma matrícula pelo ID
 router.put('/:id', matriculaController.update);
 
-// Delete a matricula with id
+// Excluir uma matrícula pelo ID
 router.delete('/:id', matriculaController.delete);
 
 module.exports = router;

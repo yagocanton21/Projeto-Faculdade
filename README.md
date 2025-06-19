@@ -1,27 +1,56 @@
 # Sistema de Gerenciamento Escolar Infantil
 
 ## Descrição do Projeto
-Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolvido como backend com API RESTful. O sistema permite gerenciar alunos, professores, turmas, disciplinas, notas, responsáveis e usuários do sistema.
+Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolvido como backend com API RESTful. O sistema permite gerenciar alunos, matrículas, notas, professores e presenças com relacionamentos entre as entidades usando JOIN.
 
 ## Estrutura de Pastas
 - **app/**: Contém todos os arquivos fonte do sistema backend
   - **config/**: Configurações do sistema, incluindo conexão com banco de dados
   - **controllers/**: Controladores que implementam a lógica de negócio
-  - **models/**: Modelos que representam as entidades do sistema
+    - **aluno.controller.js**: Controlador para gerenciamento de alunos
+    - **matricula.controller.js**: Controlador para gerenciamento de matrículas
+    - **nota.controller.js**: Controlador para gerenciamento de notas
+    - **professor.controller.js**: Controlador para gerenciamento de professores
+    - **presenca.controller.js**: Controlador para gerenciamento de presenças
+  - **models/**: Modelos que representam as entidades do sistema (com JOIN implementado)
+    - **aluno.model.js**: Modelo de dados para alunos
+    - **matricula.model.js**: Modelo de dados para matrículas (com nome do aluno)
+    - **nota.model.js**: Modelo de dados para notas (com nome do aluno)
+    - **professor.model.js**: Modelo de dados para professores
+    - **presenca.model.js**: Modelo de dados para presenças (com nome do aluno)
   - **routes/**: Definição das rotas da API
-  - **middlewares/**: Middlewares para processamento de requisições
+    - **aluno.routes.js**: Rotas para operações com alunos
+    - **matricula.routes.js**: Rotas para operações com matrículas
+    - **nota.routes.js**: Rotas para operações com notas
+    - **professor.routes.js**: Rotas para operações com professores
+    - **presenca.routes.js**: Rotas para operações com presenças
   - **index.js**: Arquivo principal que inicializa o servidor
 - **docs/**: Documentação técnica do projeto
   - **MER.png**: Modelo Entidade-Relacionamento do banco de dados
   - **DFD.drawio**: Diagrama de Fluxo de Dados do sistema
-- **init.sql**: Script para criação das tabelas principais
-- **usuario.sql**: Script para criação da tabela de usuários
+- **init.sql**: Script para criação das tabelas e dados iniciais do banco de dados
 - **Dockerfile**: Instruções para construir a imagem Docker do backend
 - **Dockerfile.db**: Instruções para construir a imagem Docker do banco de dados
 - **Dockerfile.nginx**: Instruções para construir a imagem Docker do servidor Nginx
 - **nginx.conf**: Configuração do servidor Nginx para proxy reverso
 - **docker-compose.yml**: Configuração para orquestração dos containers
 - **.env**: Variáveis de ambiente para configuração do sistema
+
+## Funcionalidades Especiais
+
+### JOIN Implementado
+O sistema utiliza JOIN nas consultas para retornar dados relacionados:
+- **Matrículas**: Retorna o nome do aluno junto com os dados da matrícula
+- **Notas**: Retorna o nome do aluno junto com os dados da nota
+- **Presenças**: Retorna o nome do aluno junto com os dados de presença
+
+### Dados Iniciais
+O sistema já vem com dados pré-cadastrados:
+- **30 professores**
+- **5 alunos**
+- **5 matrículas**
+- **7 notas**
+- **8 presenças**
 
 ## Como Executar o Projeto
 
@@ -46,37 +75,8 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
    ```
 6. O sistema estará disponível em:
    - API: http://localhost/api
-   - Ou diretamente: http://localhost:3000 (porta exposta pelo container da aplicação)
 
 ### Interagindo com a API
-
-#### Usuários
-- **Listar todos os usuários**: GET http://localhost/api/usuarios
-- **Buscar usuário por ID**: GET http://localhost/api/usuarios/{id}
-- **Criar usuário**: POST http://localhost/api/usuarios
-  ```json
-  {
-    "nome": "Nome do Usuário",
-    "email": "usuario@exemplo.com",
-    "senha": "123456",
-    "tipo": "Administrador"  /* Valores aceitos: "Administrador", "Professor", "Aluno" */
-  }
-  ```
-- **Atualizar usuário**: PUT http://localhost/api/usuarios/{id}
-  ```json
-  {
-    "nome": "Nome Atualizado",
-    "email": "email@atualizado.com",
-    "tipo": "Professor"
-  }
-  ```
-- **Atualizar senha**: PATCH http://localhost/api/usuarios/{id}/senha
-  ```json
-  {
-    "senha": "novaSenha123"
-  }
-  ```
-- **Excluir usuário**: DELETE http://localhost/api/usuarios/{id}
 
 #### Alunos
 - **Listar todos os alunos**: GET http://localhost/api/alunos
@@ -101,67 +101,33 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
   {
     "nome": "Nome do Professor",
     "email": "professor@exemplo.com",
-    "telefone": "(11) 91234-5678",
-    "formacao": "Pedagogia",
-    "data_contratacao": "2022-02-15"
+    "telefone": "(11) 91234-5678"
   }
   ```
 - **Atualizar professor**: PUT http://localhost/api/professores/{id}
 - **Excluir professor**: DELETE http://localhost/api/professores/{id}
 
-#### Turmas
-- **Listar todas as turmas**: GET http://localhost/api/turmas
-- **Buscar turma por ID**: GET http://localhost/api/turmas/{id}
-- **Criar turma**: POST http://localhost/api/turmas
-  ```json
-  {
-    "nome": "Turma A",
-    "ano_letivo": 2023,
-    "periodo": "Manhã",
-    "capacidade_maxima": 25
-  }
-  ```
-- **Atualizar turma**: PUT http://localhost/api/turmas/{id}
-- **Excluir turma**: DELETE http://localhost/api/turmas/{id}
-
-#### Disciplinas
-- **Listar todas as disciplinas**: GET http://localhost/api/disciplinas
-- **Buscar disciplina por ID**: GET http://localhost/api/disciplinas/{id}
-- **Criar disciplina**: POST http://localhost/api/disciplinas
-  ```json
-  {
-    "nome": "Matemática",
-    "descricao": "Fundamentos de matemática",
-    "carga_horaria": 60
-  }
-  ```
-- **Atualizar disciplina**: PUT http://localhost/api/disciplinas/{id}
-- **Excluir disciplina**: DELETE http://localhost/api/disciplinas/{id}
-
-#### Responsáveis
-- **Listar todos os responsáveis**: GET http://localhost/api/responsaveis
-- **Buscar responsável por ID**: GET http://localhost/api/responsaveis/{id}
-- **Criar responsável**: POST http://localhost/api/responsaveis
-  ```json
-  {
-    "nome": "Ana Silva",
-    "cpf": "123.456.789-00",
-    "telefone": "(11) 98765-4321",
-    "email": "ana@exemplo.com",
-    "parentesco": "Mãe"
-  }
-  ```
-- **Atualizar responsável**: PUT http://localhost/api/responsaveis/{id}
-- **Excluir responsável**: DELETE http://localhost/api/responsaveis/{id}
-
-#### Matrículas
+#### Matrículas (com JOIN)
 - **Listar todas as matrículas**: GET http://localhost/api/matriculas
+  ```json
+  // Resposta inclui aluno_nome
+  {
+    "data": [
+      {
+        "id": 1,
+        "aluno_id": 1,
+        "turma": "Turma A",
+        "aluno_nome": "Lucas Pereira"
+      }
+    ]
+  }
+  ```
 - **Buscar matrícula por ID**: GET http://localhost/api/matriculas/{id}
 - **Criar matrícula**: POST http://localhost/api/matriculas
   ```json
   {
     "aluno_id": 1,
-    "turma_id": 1,
+    "turma": "Turma A",
     "data_matricula": "2023-02-01",
     "status": "Ativa"
   }
@@ -169,14 +135,28 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
 - **Atualizar matrícula**: PUT http://localhost/api/matriculas/{id}
 - **Excluir matrícula**: DELETE http://localhost/api/matriculas/{id}
 
-#### Notas
+#### Notas (com JOIN)
 - **Listar todas as notas**: GET http://localhost/api/notas
+  ```json
+  // Resposta inclui aluno_nome
+  {
+    "data": [
+      {
+        "id": 1,
+        "aluno_id": 1,
+        "disciplina": "Matemática",
+        "valor": 8.5,
+        "aluno_nome": "Lucas Pereira"
+      }
+    ]
+  }
+  ```
 - **Buscar nota por ID**: GET http://localhost/api/notas/{id}
 - **Criar nota**: POST http://localhost/api/notas
   ```json
   {
     "aluno_id": 1,
-    "disciplina_id": 1,
+    "disciplina": "Matemática",
     "valor": 8.5,
     "data_avaliacao": "2023-05-15",
     "observacao": "Prova bimestral"
@@ -185,12 +165,56 @@ Este projeto consiste em um sistema de gerenciamento escolar infantil, desenvolv
 - **Atualizar nota**: PUT http://localhost/api/notas/{id}
 - **Excluir nota**: DELETE http://localhost/api/notas/{id}
 
+#### Presenças (com JOIN)
+- **Listar todas as presenças**: GET http://localhost/api/presencas
+  ```json
+  // Resposta inclui aluno_nome
+  {
+    "data": [
+      {
+        "id": 1,
+        "aluno_id": 1,
+        "data_aula": "2023-05-15",
+        "presente": true,
+        "aluno_nome": "Lucas Pereira"
+      }
+    ]
+  }
+  ```
+- **Buscar presença por ID**: GET http://localhost/api/presencas/{id}
+- **Criar presença**: POST http://localhost/api/presencas
+  ```json
+  {
+    "aluno_id": 1,
+    "data_aula": "2023-05-15",
+    "presente": true,
+    "observacao": "Presente na aula"
+  }
+  ```
+- **Atualizar presença**: PUT http://localhost/api/presencas/{id}
+- **Excluir presença**: DELETE http://localhost/api/presencas/{id}
+
 ## Tecnologias Utilizadas
 - Node.js
 - Express.js
-- MySQL
+- MySQL (com JOIN)
 - Docker
 - Nginx
+
+## Acesso ao Banco de Dados
+Para conectar ao MySQL usando o MySQL Workbench:
+- **Hostname**: 127.0.0.1 (ou localhost)
+- **Porta**: 3307
+- **Usuário**: root
+- **Senha**: password
+
+## Testando com Thunder Client
+1. Instale a extensão Thunder Client no VS Code
+2. Crie uma nova requisição
+3. Configure:
+   - **Method**: GET
+   - **URL**: http://localhost/api/matriculas
+4. Observe o campo `aluno_nome` na resposta (JOIN funcionando)
 
 ## Solução de Problemas
 

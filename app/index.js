@@ -6,13 +6,10 @@ const morgan = require('morgan');
 
 // Importar rotas
 const alunoRoutes = require('./routes/aluno.routes');
-const usuarioRoutes = require('./routes/usuario.routes');
-const turmaRoutes = require('./routes/turma.routes');
-const professorRoutes = require('./routes/professor.routes');
-const disciplinaRoutes = require('./routes/disciplina.routes');
 const matriculaRoutes = require('./routes/matricula.routes');
 const notaRoutes = require('./routes/nota.routes');
-const responsavelRoutes = require('./routes/responsavel.routes');
+const professorRoutes = require('./routes/professor.routes');
+const presencaRoutes = require('./routes/presenca.routes');
 
 // Inicializar aplicação express
 const app = express();
@@ -32,13 +29,10 @@ app.get('/', (req, res) => {
 
 // Rotas
 app.use('/alunos', alunoRoutes);
-app.use('/usuarios', usuarioRoutes);
-app.use('/turmas', turmaRoutes);
-app.use('/professores', professorRoutes);
-app.use('/disciplinas', disciplinaRoutes);
 app.use('/matriculas', matriculaRoutes);
 app.use('/notas', notaRoutes);
-app.use('/responsaveis', responsavelRoutes);
+app.use('/professores', professorRoutes);
+app.use('/presencas', presencaRoutes);
 
 // Middleware de tratamento de erros
 app.use((err, req, res, next) => {

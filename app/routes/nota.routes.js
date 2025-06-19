@@ -2,22 +2,19 @@ const express = require('express');
 const router = express.Router();
 const notaController = require('../controllers/nota.controller');
 
-// Retrieve all notas
+// Buscar todas as notas
 router.get('/', notaController.findAll);
 
-// Retrieve a single nota with id
+// Buscar uma nota pelo ID
 router.get('/:id', notaController.findOne);
 
-// Retrieve all notas for a specific aluno
-router.get('/aluno/:id', notaController.findByAluno);
-
-// Create a new nota
+// Criar uma nova nota
 router.post('/', notaController.create);
 
-// Update a nota with id
+// Atualizar uma nota pelo ID
 router.put('/:id', notaController.update);
 
-// Delete a nota with id
+// Excluir uma nota pelo ID
 router.delete('/:id', notaController.delete);
 
 module.exports = router;

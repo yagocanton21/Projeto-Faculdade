@@ -28,8 +28,7 @@ services:
       - MYSQL_DATABASE=escola_infantil
       - MYSQL_ROOT_HOST=%
     volumes:
-      - ./init.sql:/docker-entrypoint-initdb.d/01-init.sql
-      - ./usuario.sql:/docker-entrypoint-initdb.d/02-usuario.sql
+      - ./init.sql:/docker-entrypoint-initdb.d/init.sql
       - db-data:/var/lib/mysql
     command: --default-authentication-plugin=mysql_native_password
     networks:

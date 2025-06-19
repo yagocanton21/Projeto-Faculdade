@@ -2,19 +2,19 @@ const express = require('express');
 const router = express.Router();
 const professorController = require('../controllers/professor.controller');
 
-// Listar todos os professores
+// Buscar todos os professores
 router.get('/', professorController.findAll);
 
-// Buscar um professor por ID
+// Buscar um professor pelo ID
 router.get('/:id', professorController.findOne);
 
 // Criar um novo professor
 router.post('/', professorController.create);
 
-// Atualizar um professor
+// Atualizar um professor pelo ID
 router.put('/:id', professorController.update);
 
-// Excluir um professor
+// Excluir um professor pelo ID
 router.delete('/:id', professorController.delete);
 
 module.exports = router;

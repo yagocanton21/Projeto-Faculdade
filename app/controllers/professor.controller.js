@@ -50,10 +50,10 @@ exports.findOne = async (req, res) => {
 
 exports.create = async (req, res) => {
   try {
-    if (!req.body.nome || !req.body.email) {
+    if (!req.body.nome || !req.body.email || !req.body.telefone) {
       return res.status(400).json({ 
         error: true,
-        message: 'Nome e email são obrigatórios' 
+        message: 'Nome, email e telefone são obrigatórios' 
       });
     }
     
