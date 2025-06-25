@@ -1,0 +1,154 @@
+# DIAGRAMA DE FLUXO DE DADOS (DFD) ATUALIZADO
+# Sistema de Gerenciamento Escolar Infantil
+
+## NÍVEL 0 - DIAGRAMA DE CONTEXTO
+
+USUÁRIOS/SISTEMAS EXTERNOS → [SISTEMA ESCOLAR] → RELATÓRIOS/DADOS
+
+## NÍVEL 1 - PROCESSOS PRINCIPAIS
+
+### 1. GERENCIAR ALUNOS
+Entrada: Dados do aluno (nome, data_nascimento, endereco, telefone)
+Processo: Validar → Armazenar → Confirmar
+Saída: Confirmação de cadastro/atualização
+Armazenamento: D1 - ALUNOS
+
+### 2. GERENCIAR PROFESSORES  
+Entrada: Dados do professor (nome, email, telefone)
+Processo: Validar → Armazenar → Confirmar
+Saída: Confirmação de cadastro/atualização
+Armazenamento: D2 - PROFESSORES
+
+### 3. GERENCIAR MATRÍCULAS
+Entrada: aluno_id, turma, data_matricula, status
+Processo: Validar aluno → Criar matrícula → JOIN com dados do aluno
+Saída: Matrícula com nome do aluno (JOIN)
+Armazenamento: D3 - MATRICULAS
+Consulta: D1 - ALUNOS (para JOIN)
+
+### 4. GERENCIAR NOTAS
+Entrada: aluno_id, disciplina, valor, data_avaliacao, observacao
+Processo: Validar aluno → Registrar nota → JOIN com dados do aluno
+Saída: Nota com nome do aluno (JOIN)
+Armazenamento: D4 - NOTAS
+Consulta: D1 - ALUNOS (para JOIN)
+
+### 5. GERENCIAR PRESENÇAS
+Entrada: aluno_id, data_aula, presente, observacao
+Processo: Validar aluno → Registrar presença → JOIN com dados do aluno
+Saída: Presença com nome do aluno (JOIN)
+Armazenamento: D5 - PRESENCAS
+Consulta: D1 - ALUNOS (para JOIN)
+
+## FLUXOS DE DADOS DETALHADOS
+
+### FLUXO 1: CADASTRO DE ALUNO
+Cliente → [POST /api/alunos] → Validar dados → D1-ALUNOS → Resposta JSON
+
+### FLUXO 2: LISTAR ALUNOS
+Cliente → [GET /api/alunos] → D1-ALUNOS → Lista de alunos → Cliente
+
+### FLUXO 3: CADASTRO DE MATRÍCULA (COM JOIN)
+Cliente → [POST /api/matriculas] → Validar aluno_id → D3-MATRICULAS
+                                                    ↓
+D1-ALUNOS ← JOIN para buscar nome do aluno ← [GET /api/matriculas]
+                                                    ↓
+Cliente ← Matrícula + nome do aluno ← Resposta com JOIN
+
+### FLUXO 4: LISTAR MATRÍCULAS (COM JOIN)
+Cliente → [GET /api/matriculas] → D3-MATRICULAS + D1-ALUNOS (JOIN)
+                                        ↓
+Cliente ← Lista com matrículas + nomes dos alunos
+
+### FLUXO 5: CADASTRO DE NOTA (COM JOIN)
+Cliente → [POST /api/notas] → Validar aluno_id → D4-NOTAS
+                                              ↓
+D1-ALUNOS ← JOIN para buscar nome ← [GET /api/notas]
+                                              ↓
+Cliente ← Nota + nome do aluno ← Resposta com JOIN
+
+### FLUXO 6: INTEGRIDADE REFERENCIAL
+Cliente → [DELETE /api/alunos/1] → Verificar dependências
+                                        ↓
+D3-MATRICULAS, D4-NOTAS, D5-PRESENCAS ← Consultar relacionamentos
+                                        ↓
+Cliente ← Erro (se houver dependências) OU Sucesso (se não houver)
+
+## ARMAZENAMENTOS DE DADOS
+
+D1 - ALUNOS
+- Dados pessoais dos estudantes
+- Chave primária para relacionamentos
+
+D2 - PROFESSORES  
+- Dados do corpo docente
+- Tabela independente
+
+D3 - MATRICULAS
+- Vínculos aluno-turma
+- Referencia D1-ALUNOS
+
+D4 - NOTAS
+- Avaliações dos alunos
+- Referencia D1-ALUNOS
+
+D5 - PRESENCAS
+- Controle de frequência
+- Referencia D1-ALUNOS
+
+## ENTIDADES EXTERNAS
+
+### USUÁRIO/CLIENTE
+- Envia requisições HTTP
+- Recebe respostas JSON
+- Interage via API RESTful
+
+### SISTEMA DE BANCO DE DADOS
+- MySQL com relacionamentos
+- Integridade referencial
+- Consultas com JOIN
+
+## TECNOLOGIAS DO FLUXO
+
+### ENTRADA
+- HTTP Requests (GET, POST, PUT, DELETE)
+- JSON payload
+- Thunder Client / Postman / cURL
+
+### PROCESSAMENTO
+- Node.js + Express.js
+- Validações nos Controllers
+- Consultas SQL com JOIN nos Models
+
+### SAÍDA  
+- HTTP Responses
+- JSON com dados relacionados
+- Status codes apropriados
+
+### ARMAZENAMENTO
+- MySQL Database
+- Docker Container
+- Porta 3307 (externa)
+
+## FLUXO DE JOIN (DIFERENCIAL)
+
+REQUISIÇÃO → CONTROLLER → MODEL → SQL COM JOIN → MYSQL
+                                      ↓
+RESPOSTA ← JSON ENRIQUECIDO ← RESULTADO COM DADOS RELACIONADOS
+
+Exemplo:
+GET /api/matriculas → SELECT m.*, a.nome as aluno_nome FROM matriculas m JOIN alunos a ON m.aluno_id = a.id
+
+## DIAGRAMA TEXTUAL SIMPLIFICADO
+
+[CLIENTE] 
+    ↓ HTTP Request
+[API GATEWAY - NGINX]
+    ↓ Proxy
+[APLICAÇÃO NODE.JS]
+    ↓ SQL + JOIN
+[BANCO MYSQL]
+    ↓ Dados Relacionados
+[APLICAÇÃO NODE.JS]
+    ↓ JSON Response
+[CLIENTE]
