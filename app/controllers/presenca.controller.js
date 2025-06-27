@@ -7,21 +7,21 @@ exports.findAll = async (req, res) => {
     if (!presencas || presencas.length === 0) {
       return res.status(200).json({
         error: false,
-        message: 'Nenhuma presença cadastrada no sistema.',
+        message: 'Nenhuma presenca cadastrada no sistema.',
         data: []
       });
     }
     
     res.status(200).json({
       error: false,
-      message: `${presencas.length} presença(s) encontrada(s).`,
+      message: `${presencas.length} presenca(s) encontrada(s).`,
       data: presencas
     });
   } catch (error) {
-    console.error('Erro ao buscar presenças:', error);
+    console.error('Erro ao buscar presencas:', error);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao buscar as presenças.' 
+      message: error.message || 'Ocorreu um erro ao buscar as presencas.' 
     });
   }
 };
@@ -32,7 +32,7 @@ exports.findOne = async (req, res) => {
     if (!presenca) {
       return res.status(404).json({ 
         error: true,
-        message: 'Presença não encontrada' 
+        message: 'Presenca nao encontrada' 
       });
     }
     res.status(200).json({
@@ -40,10 +40,10 @@ exports.findOne = async (req, res) => {
       data: presenca
     });
   } catch (error) {
-    console.error(`Erro ao buscar presença: ${error.message}`);
+    console.error(`Erro ao buscar presenca: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao buscar a presença.' 
+      message: error.message || 'Ocorreu um erro ao buscar a presenca.' 
     });
   }
 };
@@ -53,21 +53,21 @@ exports.create = async (req, res) => {
     if (!req.body.aluno_id || !req.body.data_aula) {
       return res.status(400).json({ 
         error: true,
-        message: 'Aluno ID e data da aula são obrigatórios' 
+        message: 'Aluno ID e data da aula sao obrigatorios' 
       });
     }
     
     const presenca = await Presenca.create(req.body);
     res.status(201).json({
       error: false,
-      message: 'Presença criada com sucesso!',
+      message: 'Presenca criada com sucesso!',
       data: presenca
     });
   } catch (error) {
-    console.error(`Erro ao criar presença: ${error.message}`);
+    console.error(`Erro ao criar presenca: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao criar a presença.' 
+      message: error.message || 'Ocorreu um erro ao criar a presenca.' 
     });
   }
 };
@@ -78,21 +78,21 @@ exports.update = async (req, res) => {
     if (!presenca) {
       return res.status(404).json({ 
         error: true,
-        message: 'Presença não encontrada' 
+        message: 'Presenca nao encontrada' 
       });
     }
     
     const updatedPresenca = await Presenca.update(req.params.id, req.body);
     res.status(200).json({
       error: false,
-      message: 'Presença atualizada com sucesso!',
+      message: 'Presenca atualizada com sucesso!',
       data: updatedPresenca
     });
   } catch (error) {
-    console.error(`Erro ao atualizar presença: ${error.message}`);
+    console.error(`Erro ao atualizar presenca: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao atualizar a presença.' 
+      message: error.message || 'Ocorreu um erro ao atualizar a presenca.' 
     });
   }
 };
@@ -103,20 +103,20 @@ exports.delete = async (req, res) => {
     if (!presenca) {
       return res.status(404).json({ 
         error: true,
-        message: 'Presença não encontrada' 
+        message: 'Presenca nao encontrada' 
       });
     }
     
     await Presenca.delete(req.params.id);
     res.status(200).json({ 
       error: false,
-      message: 'Presença excluída com sucesso' 
+      message: 'Presenca excluida com sucesso' 
     });
   } catch (error) {
-    console.error(`Erro ao excluir presença: ${error.message}`);
+    console.error(`Erro ao excluir presenca: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao excluir a presença.' 
+      message: error.message || 'Ocorreu um erro ao excluir a presenca.' 
     });
   }
 };

@@ -7,21 +7,21 @@ exports.findAll = async (req, res) => {
     if (!matriculas || matriculas.length === 0) {
       return res.status(200).json({
         error: false,
-        message: 'Nenhuma matrícula cadastrada no sistema.',
+        message: 'Nenhuma matricula cadastrada no sistema.',
         data: []
       });
     }
     
     res.status(200).json({
       error: false,
-      message: `${matriculas.length} matrícula(s) encontrada(s).`,
+      message: `${matriculas.length} matricula(s) encontrada(s).`,
       data: matriculas
     });
   } catch (error) {
-    console.error('Erro ao buscar matrículas:', error);
+    console.error('Erro ao buscar matriculas:', error);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao buscar as matrículas.' 
+      message: error.message || 'Ocorreu um erro ao buscar as matriculas.' 
     });
   }
 };
@@ -32,7 +32,7 @@ exports.findOne = async (req, res) => {
     if (!matricula) {
       return res.status(404).json({ 
         error: true,
-        message: 'Matrícula não encontrada' 
+        message: 'Matricula nao encontrada' 
       });
     }
     res.status(200).json({
@@ -40,10 +40,10 @@ exports.findOne = async (req, res) => {
       data: matricula
     });
   } catch (error) {
-    console.error(`Erro ao buscar matrícula: ${error.message}`);
+    console.error(`Erro ao buscar matricula: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao buscar a matrícula.' 
+      message: error.message || 'Ocorreu um erro ao buscar a matricula.' 
     });
   }
 };
@@ -53,21 +53,21 @@ exports.create = async (req, res) => {
     if (!req.body.aluno_id || !req.body.turma || !req.body.data_matricula) {
       return res.status(400).json({ 
         error: true,
-        message: 'Aluno ID, turma e data de matrícula são obrigatórios' 
+        message: 'Aluno ID, turma e data de matricula sao obrigatorios' 
       });
     }
     
     const matricula = await Matricula.create(req.body);
     res.status(201).json({
       error: false,
-      message: 'Matrícula criada com sucesso!',
+      message: 'Matricula criada com sucesso!',
       data: matricula
     });
   } catch (error) {
-    console.error(`Erro ao criar matrícula: ${error.message}`);
+    console.error(`Erro ao criar matricula: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao criar a matrícula.' 
+      message: error.message || 'Ocorreu um erro ao criar a matricula.' 
     });
   }
 };
@@ -78,21 +78,21 @@ exports.update = async (req, res) => {
     if (!matricula) {
       return res.status(404).json({ 
         error: true,
-        message: 'Matrícula não encontrada' 
+        message: 'Matricula nao encontrada' 
       });
     }
     
     const updatedMatricula = await Matricula.update(req.params.id, req.body);
     res.status(200).json({
       error: false,
-      message: 'Matrícula atualizada com sucesso!',
+      message: 'Matricula atualizada com sucesso!',
       data: updatedMatricula
     });
   } catch (error) {
-    console.error(`Erro ao atualizar matrícula: ${error.message}`);
+    console.error(`Erro ao atualizar matricula: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao atualizar a matrícula.' 
+      message: error.message || 'Ocorreu um erro ao atualizar a matricula.' 
     });
   }
 };
@@ -103,20 +103,20 @@ exports.delete = async (req, res) => {
     if (!matricula) {
       return res.status(404).json({ 
         error: true,
-        message: 'Matrícula não encontrada' 
+        message: 'Matricula nao encontrada' 
       });
     }
     
     await Matricula.delete(req.params.id);
     res.status(200).json({ 
       error: false,
-      message: 'Matrícula excluída com sucesso' 
+      message: 'Matricula excluida com sucesso' 
     });
   } catch (error) {
-    console.error(`Erro ao excluir matrícula: ${error.message}`);
+    console.error(`Erro ao excluir matricula: ${error.message}`);
     res.status(500).json({ 
       error: true,
-      message: error.message || 'Ocorreu um erro ao excluir a matrícula.' 
+      message: error.message || 'Ocorreu um erro ao excluir a matricula.' 
     });
   }
 };

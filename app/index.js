@@ -22,6 +22,12 @@ app.use(morgan('dev')); // Registro de logs
 app.use(express.json()); // Processar corpos JSON
 app.use(express.urlencoded({ extended: true })); // Processar corpos URL-encoded
 
+// Middleware para configurar charset UTF-8
+app.use((req, res, next) => {
+  res.setHeader('Content-Type', 'application/json; charset=utf-8');
+  next();
+});
+
 // Rota raiz
 app.get('/', (req, res) => {
   res.json({ message: 'Bem-vindo à API do Sistema de Gerenciamento Escolar Infantil' });

@@ -32,7 +32,7 @@ exports.findOne = async (req, res) => {
     if (!nota) {
       return res.status(404).json({ 
         error: true,
-        message: 'Nota não encontrada' 
+        message: 'Nota nao encontrada' 
       });
     }
     res.status(200).json({
@@ -53,7 +53,7 @@ exports.create = async (req, res) => {
     if (!req.body.aluno_id || !req.body.disciplina || !req.body.valor) {
       return res.status(400).json({ 
         error: true,
-        message: 'Aluno ID, disciplina e valor são obrigatórios' 
+        message: 'Aluno ID, disciplina e valor sao obrigatorios' 
       });
     }
     
@@ -78,7 +78,7 @@ exports.update = async (req, res) => {
     if (!nota) {
       return res.status(404).json({ 
         error: true,
-        message: 'Nota não encontrada' 
+        message: 'Nota nao encontrada' 
       });
     }
     
@@ -103,14 +103,14 @@ exports.delete = async (req, res) => {
     if (!nota) {
       return res.status(404).json({ 
         error: true,
-        message: 'Nota não encontrada' 
+        message: 'Nota nao encontrada' 
       });
     }
     
     await Nota.delete(req.params.id);
     res.status(200).json({ 
       error: false,
-      message: 'Nota excluída com sucesso' 
+      message: 'Nota excluida com sucesso' 
     });
   } catch (error) {
     console.error(`Erro ao excluir nota: ${error.message}`);
