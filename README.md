@@ -1,5 +1,10 @@
 # Sistema de Gerenciamento Escolar Infantil
 
+## Estrutura do Projeto
+
+### Diagramas
+O projeto inclui os seguintes diagramas na pasta # Sistema de Gerenciamento Escolar Infantil
+
 ## 📁 Repositório do Projeto
 **Para acessar o código completo e fazer download dos arquivos, visite:**
 👉 **[https://github.com/yagocanton21/Projeto-Faculdade](https://github.com/yagocanton21/Projeto-Faculdade)**
@@ -301,9 +306,56 @@ docker-compose up -d --build
 2. Se não estiver, reinicie todos os containers
 3. Aguarde pelo menos 30 segundos para o banco de dados inicializar completamente
 
+## Dicas para Apresentação do Projeto
+
+### Roteiro de Demonstração
+1. **Introdução ao Sistema**
+   - Explique o propósito do sistema (gerenciamento escolar infantil)
+   - Apresente a arquitetura geral (Node.js, MySQL, Docker, Nginx)
+
+2. **Demonstração da API**
+   - Mostre a API funcionando no navegador (http://localhost/api)
+   - Use o Thunder Client para demonstrar as operações CRUD:
+     - Listar alunos (GET)
+     - Criar um novo aluno (POST)
+     - Buscar um aluno específico (GET com ID)
+     - Atualizar um aluno (PUT)
+     - Excluir um aluno (DELETE)
+
+3. **Explicação do Código**
+   - Mostre a estrutura MVC do projeto
+   - Explique como os controllers se comunicam com os models
+   - Destaque o uso de async/await para operações assíncronas
+
+4. **Demonstração do Docker**
+   - Explique como os containers se comunicam
+   - Mostre os comandos para gerenciar os containers
+
 ## Tecnologias Utilizadas
-- **Backend**: Node.js com Express.js
-- **Banco de Dados**: MySQL 8.0
+- **Backend**: Node.js v16.20.2 com Express.js
+- **Banco de Dados**: MySQL 8.0.42
 - **Containerização**: Docker e Docker Compose
-- **Proxy Reverso**: Nginx
+- **Proxy Reverso**: Nginx 1.29.0
 - **Padrão de Arquitetura**: MVC (Model-View-Controller)
+
+## Testando com Thunder Client
+
+Para testar a API usando o Thunder Client no VS Code:
+
+1. Instale a extensão Thunder Client no VS Code
+2. Clique no ícone do raio na barra lateral
+3. Clique em "New Request"
+4. Configure a requisição conforme os exemplos abaixo
+
+### Exemplo: Listar todos os alunos
+- Método: **GET**
+- URL: `http://localhost/api/alunos`
+- Clique em "Send"
+
+### Exemplo: Criar um novo aluno
+- Método: **POST**
+- URL: `http://localhost/api/alunos`
+- Vá para a aba "Body"
+- Selecione "JSON"
+- Cole o conteúdo do exemplo acima
+- Clique em "Send"
