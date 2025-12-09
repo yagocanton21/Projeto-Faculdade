@@ -41,23 +41,6 @@ docker-compose up -d --build
 # API: http://localhost/api
 ```
 
-### Opção 2: Local (Desenvolvimento)
-
-**Backend:**
-```bash
-npm install
-npm start
-```
-
-**Frontend:**
-```bash
-cd frontend
-npm install
-npm run dev
-```
-
----
-
 ## 🎯 Funcionalidades
 
 ### ✅ CRUD Completo
@@ -229,7 +212,9 @@ Além do frontend React, o projeto inclui views server-side com EJS:
 
 ## 👨‍💻 Desenvolvedor
 
-**Yago Canton**  
+**Yago Canton** 
+**Marcello Esteves**
+**Gustavo Fernandes** 
 Projeto Acadêmico - Sistema de Gerenciamento Escolar  
 2025
 
